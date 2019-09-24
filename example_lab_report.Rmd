@@ -1,0 +1,53 @@
+---
+title: "Bad Boyle Data"
+author: "rcj"
+date: "23/09/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+```{r}
+library(tidyverse)
+```
+
+## Purpose 
+
+## Method
+
+## Aparatus
+
+## Observations
+
+```{r}
+bad_boyle <- readr::read_csv(here::here("data/some_bad_data.csv"))
+```
+
+We collected `r nrow(bad_boyle)` records. The graph looks like this:
+
+```{r}
+ggplot2::ggplot(data=bad_boyle)+ggplot2::geom_point(ggplot2::aes(Pressure, y=Volume), color="black")
+
+
+```
+
+Oh I might have made some mistakes. (Excellent!) Here is what I expected:
+
+```{r}
+fake_data <- tibble(x=1:20, y=12/x)
+
+```
+
+## Conclusions
+Some of our data was very bad. We should be more careful about measurement next time. We also made typing errors in the data which we had to correct.
+
+
+
+Let's see how our fake data maps over our real data:
+```{r}
+ggplot2::ggplot(data=bad_boyle)+ggplot2::geom_point(ggplot2::aes(Pressure, y=Volume))+geom_point(data=fake_data, aes(x, y), color="red")
+
+
+```
+
