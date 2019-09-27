@@ -2,7 +2,9 @@
 title: "Bad Boyle Data"
 author: "rcj"
 date: "23/09/2019"
-output: html_document
+output:
+  html_document: default
+  pdf_document: default
 ---
 
 ```{r setup, include=FALSE}
@@ -14,12 +16,19 @@ library(tidyverse)
 
 ## Purpose 
 
-Testing Boyle's law.
+Testing Boyle's law. Try decoding this:
+
+https://www.physiology.org/doi/full/10.1152/jappl.1999.87.4.1543
+
+```{r, out.width=1000}
+knitr::include_graphics("/home/rob/Pictures/boyle3.png")
+```
+
 
 ## Method
 
 
-We measured pressure using a guage and volume using something else.
+We measured pressure using a gauge and volume using something else.
 
 ### Aparatus
 
@@ -66,6 +75,19 @@ And we could generate the linear form:
 testdata <- boyle %>% mutate(oneoverV = 1/volume)
 testdata %>% ggplot()+geom_point(aes(x=pressure, y=oneoverV))
 ```
+
+Here is a linear model:
+
+```{r}
+model1 <- lm(testdata$pressure ~ testdata$oneoverV)
+
+broom::tidy(model1)
+
+```
+```{r}
+broom::glance(model1)
+```
+
 
 ## Conclusions
 
