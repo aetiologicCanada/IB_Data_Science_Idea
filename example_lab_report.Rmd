@@ -3,7 +3,8 @@ title: "Bad Boyle Data"
 author: "rcj"
 date: "23/09/2019"
 output:
-  html_document: default
+  html_document:
+    df_print: paged
   pdf_document: default
 ---
 
@@ -21,7 +22,7 @@ Testing Boyle's law. Try decoding this:
 https://www.physiology.org/doi/full/10.1152/jappl.1999.87.4.1543
 
 ```{r, out.width=1000}
-knitr::include_graphics("/home/rob/Pictures/boyle3.png")
+knitr::include_graphics("boyle3.png")
 ```
 
 
@@ -30,7 +31,7 @@ knitr::include_graphics("/home/rob/Pictures/boyle3.png")
 
 We measured pressure using a gauge and volume using something else.
 
-### Aparatus
+### Apparatus
 
 Balloons, bike-pump, guages.
 
@@ -45,8 +46,8 @@ bad_boyle <- readr::read_csv(here::here("data/bad_data.csv")) %>%
                   400*(runif(nrow(good_boyle))-0.5)
     )
 
-boyle <- good_boyle
-#boyle <- bad_boyle
+#boyle <- good_boyle
+boyle <- bad_boyle
 ```
 
 We collected `r nrow(boyle)` records. The graph looks like this:
@@ -65,15 +66,20 @@ boyle %>% ggplot2::ggplot()+
 Here is a table with our data:
 
 ```{r}
-DT::datatable(boyle)
+#DT::datatable(boyle)
 ```
 
 
 And we could generate the linear form:
 
 ```{r}
-testdata <- boyle %>% mutate(oneoverV = 1/volume)
-testdata %>% ggplot()+geom_point(aes(x=pressure, y=oneoverV))
+testdata <- boyle %>% dplyr::mutate(
+  oneoverV = 1/volume,
+  logV     = log(volume),
+  
+  )
+
+testdata %>% ggplot()+geom_point(aes(x=pressure, y=oneoverV, color=logV))
 ```
 
 Here is a linear model:
