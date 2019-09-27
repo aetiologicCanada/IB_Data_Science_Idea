@@ -36,8 +36,8 @@ bad_boyle <- readr::read_csv(here::here("data/bad_data.csv")) %>%
                   400*(runif(nrow(good_boyle))-0.5)
     )
 
-#boyle <- good_boyle
-boyle <- bad_boyle
+boyle <- good_boyle
+#boyle <- bad_boyle
 ```
 
 We collected `r nrow(boyle)` records. The graph looks like this:
@@ -59,10 +59,17 @@ Here is a table with our data:
 DT::datatable(boyle)
 ```
 
+
+And we could generate the linear form:
+
+```{r}
+testdata <- boyle %>% mutate(oneoverV = 1/volume)
+testdata %>% ggplot()+geom_point(aes(x=pressure, y=oneoverV))
+```
+
 ## Conclusions
-Some of our data was very bad. We should be more careful about measurement next time. We also made typing errors in the data which we had to correct.
 
+Here are some conclusions.
 
-Let's see how our fake data maps over our real data:
-
+Here are
 
